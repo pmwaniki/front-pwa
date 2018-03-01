@@ -46,7 +46,17 @@ export const auth=(username,password)=>{
                 dispatch(authSuccess(res.data.token,username));
             })
             .catch(err=>{
-                dispatch(authFail("Unable to log in with provided credentials"));
+                if (err.response){
+                    dispatch(authFail("Unable to log in with provided credentials"));
+                    console.log("Response Error:",err);
+                } else if(err.request){
+                    dispatch(authFail("Unable to reach remote server: Contact site Admin"));
+                    console.log("Request error",err);
+                } else {
+                    dispatch(authFail("Something went wrong: contact site admin"));
+                    console.log("Other Error:",err);
+                }
+
             });
     }
 };

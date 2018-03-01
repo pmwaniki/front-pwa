@@ -26,7 +26,7 @@ class Login extends Component{
 
         return(
             <form>
-                <span style={{color:'red'}}>{this.props.error}</span>
+                <span style={{color:'red'}}>{this.props.error}</span><br/>
                 <TextField hintText="USERNAME" value={this.state.username} onChange={this.usernameChange}/> <br/>
                 <TextField hintText="PASSWORD" value={this.state.password} type="password" onChange={this.passwordChange}/><br/>
                 <RaisedButton label="SUBMIT" primary={true} onClick={this.submitHandler}/>

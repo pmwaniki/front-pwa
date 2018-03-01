@@ -1,4 +1,4 @@
 
 export default {
-    backendURL:"http://localhost:8000"
+    backendURL: process.env.NODE_ENV === "production" ? "" : "http://localhost:8000"
 }
