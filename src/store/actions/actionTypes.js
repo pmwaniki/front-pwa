@@ -1,0 +1,18 @@
+
+
+export const SAVE_IMAGE="SAVE_IMAGE";
+export const LOAD_IMAGES="LOAD_IMAGES";
+export const SYNC_IMAGES ='SYNC_IMAGES';
+export const LOAD_SYNCED_IMAGES='LOAD_SYNCED_IMAGES';
+
+export const SET_HOSPITALS='SET_HOSPITALS';
+export const SET_HOSPITAL="SET_HOSPITAL";
+
+export const AUTH_START='AUTH_START';
+export const AUTH_SUCCESS='AUTH_SUCCESS';
+export const AUTH_FAIL='AUTH_FAIL';
+export const AUTH_LOGOUT='AUTH_LOGOUT';
+
+
+
+
