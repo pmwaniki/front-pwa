@@ -41,6 +41,9 @@ export const auth=(username,password)=>{
         };
         axios.post(config.backendURL + "/api-token-auth/", authData)
             .then(res=>{
+                if(!res.data.token){
+                    throw Error("No token returned");
+                }
                 localStorage.setItem("token",res.data.token);
                 localStorage.setItem("username",username);
                 dispatch(authSuccess(res.data.token,username));
