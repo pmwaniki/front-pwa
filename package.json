@@ -1,5 +1,6 @@
 {
   "name": "front-pwa",
+  "homepage":"/front-pwa",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
