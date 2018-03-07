@@ -14,5 +14,9 @@ export const AUTH_FAIL='AUTH_FAIL';
 export const AUTH_LOGOUT='AUTH_LOGOUT';
 
 
+export const SNACKBAR_OPEN='SNACKBAR_OPEN';
+export const SNACKBAR_MESSAGE='SNACKBAR_MESSAGE';
+
+
 
 

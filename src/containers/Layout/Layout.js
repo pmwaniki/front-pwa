@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ActionFace from "material-ui/svg-icons/action/face"
+import Snackbar from 'material-ui/Snackbar';
 
 
 import {Tab,Tabs} from "material-ui/Tabs"
@@ -61,6 +62,8 @@ class Layout extends Component{
                                     return <MenuItem key={hosp.id} value={hosp.id} primaryText={hosp.name}/>
                                 })}
                             </DropDownMenu>
+                            <MenuItem onClick={()=>this.props.sync("sync")} primaryText={"Sync Images"}/>
+                            <MenuItem onClick={()=>this.props.sync("delete")} primaryText={"Delete Synced"}/>
                             <MenuItem onClick={this.logoutHandler} primaryText={"logout"}/>
 
 
@@ -69,6 +72,13 @@ class Layout extends Component{
 
                 </Toolbar>
                 {body}
+                <Snackbar
+                    message={this.props.snackbarMessage}
+                    open={this.props.snackbarOpen}
+                    onRequestClose={()=>this.props.snackbarOpenState(false)}
+                    autoHideDuration={3000}
+                />
+
 
             </div>
 
@@ -82,12 +92,16 @@ const mapStateToProps=(state)=>{
         username:state.auth.username,
         hospitals:state.images.hospitals,
         hosp:state.images.hosp,
+        snackbarOpen:state.ui.snackbarOpen,
+        snackbarMessage:state.ui.snackbarMessage,
     }
 };
 const mapDispatchToProp=(dispatch)=>{
     return {
+        sync:(action)=>dispatch(actions.syncAction(action)),
         logout:()=>dispatch(actions.logout()),
         changeHospital:(hosp)=>dispatch(actions.changeHospital(hosp)),
+        snackbarOpenState:(state)=>dispatch(actions.snackbarOpenState(state)),
     }
 };
 

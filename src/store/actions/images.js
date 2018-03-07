@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import config from "../../config";
 import idb from 'idb';
+import * as uiActions from "./ui";
 
 
 
@@ -29,6 +30,16 @@ const readAllData=(st)=>{
             let tx=db.transaction(st);
             return tx.objectStore(st).getAll();
         });
+};
+
+const deleteData=(st,key)=>{
+    return dbPromise
+        .then(db=>{
+            let tx=db.transaction(st,"readwrite");
+            let store = tx.objectStore(st);
+            store.delete(key);
+            return tx.complete;
+        })
 };
 
 const getToken=()=>{
@@ -91,7 +102,12 @@ export const saveImage = (image)=>{
 
 
             })
-            .catch(err=>console.log("Upload error:",err));
+            .catch(err=>{
+                console.log("Upload error:",err);
+                dispatch(uiActions.snackbarSetMessage("Network error. Try again later"));
+                dispatch(uiActions.snackbarOpenState(true));
+
+            });
     }
 
 };
@@ -180,6 +196,60 @@ export const getHospitals=()=>{
                 dispatch(setHospitals(res));
             })
     }
+};
+
+
+
+export const syncAction=(action="sync")=>{
+    return dispatch=>{
+        readAllData('images')
+            .then(images=>{
+                images.map(image=>{
+                    readAllData('synced-images')
+                        .then(sImages=>{
+                            let is_synced=sImages.filter(sImage=> sImage.file_path===image.file_path).length>0;
+                            console.log("Will upload",image.file_path,is_synced);
+                            if (!is_synced & action==="sync"){
+                                upload(image)
+                                    .then(res=>{
+                                        if (res.ok){
+                                            return res.json();
+                                        } else {
+                                            throw Error(res.statusText);
+                                        }
+
+                                    })
+                                    .then(res2=>{
+                                        dispatch(uiActions.snackbarSetMessage("Synced successfully"));
+                                        dispatch(uiActions.snackbarOpenState(true));
+                                        let sync_info={file_path:image.file_path,date:new Date().toISOString()};
+                                        console.log("Server said",res2);
+                                        writeData('synced-images',sync_info);
+                                        dispatch(syncImages(sync_info));
+
+
+
+                                    })
+                                    .catch(err=>{
+                                        console.log("Upload error:",err);
+                                        dispatch(uiActions.snackbarSetMessage("Network error. Try again later"));
+                                        dispatch(uiActions.snackbarOpenState(true));
+                                    });
+
+                            } else if( is_synced & action==="delete"){
+                                deleteData('images',image.file_path)
+                                    .then(val=>{
+                                        dispatch(loadImages());
+                                        deleteData('synced-images',image.file_path)
+                                            .then((val2)=> dispatch(loadSynced()));
+                                    })
+
+                            }
+                        })
+                })
+            })
+    };
+
 };
 
 

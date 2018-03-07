@@ -15,7 +15,7 @@ class Gallery extends Component{
                   {this.props.images.map(image=>{
                     return <GridTile
                         key={image.file_path}
-                        actionIcon={<IconButton><StarBorder color="blue" /></IconButton>}
+                        actionIcon={<IconButton><StarBorder color={this.props.synced_images.filter(sImage=>sImage.file_path===image.file_path).length>0? "green":"white"} /></IconButton>}
                         title={image.record_id}
                         subtitle={<span>by <b>{image.ipno}</b></span>}
                     >

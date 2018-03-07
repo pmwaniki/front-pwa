@@ -53,9 +53,15 @@ class Capture extends Component{
                     this.video.srcObject=stream;
                     this.video.play();
                 })
-                .catch(err=>console.log("Camera failed",err));
+                .catch(err=>{
+                    console.log("Camera failed",err);
+                        alert("Could not connect to Camera");
+                        this.props.close();
+                });
+
         } else {
             console.log("cant connect to device");
+
         }
     };
     closeCamera=()=>{
