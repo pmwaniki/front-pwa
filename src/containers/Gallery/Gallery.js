@@ -30,6 +30,7 @@ class Gallery extends Component{
         dates.forEach(date=>{
             elements.push(<Subheader>{date}</Subheader>);
             let images2=this.props.images.filter(im=>im.date===date);
+            images2.sort((a,b)=> parseInt(b.record_id) - parseInt(a.record_id));
             images2.forEach(image=>{
                 let tile= (<div style={{display:'inline'}} onClick={()=>this.previewOpen(URL.createObjectURL(image.blob))}><GridTile
                     key={image.file_path}

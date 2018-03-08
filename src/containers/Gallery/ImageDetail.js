@@ -12,13 +12,14 @@ class ImageDetail extends Component{
             position:"fixed",
             zIndex:10,
             top:56,
-            backgroundColor:"white",
+            backgroundColor:"black",
             overflow:'auto'
         },
         image:{
             maxWidth:'100%',
             height:'auto',
-            position:'flex'
+            position:'fixed',
+            margin:'auto auto'
 
         },
         backButton:{
