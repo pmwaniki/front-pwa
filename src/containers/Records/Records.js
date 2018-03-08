@@ -59,10 +59,12 @@ class Records extends Component{
             position: 'fixed',
         };
         let data=this.formatImages(this.props.images);
+        data.sort((a,b)=>b.last_modified>a.last_modified? -1:1);
+
         const iconStyles = {
             marginRight: 24,
         };
-        console.log("Table data:",data);
+        //console.log("Table data:",data);
         return(
             <div>
                 <h1>Records <FontIcon className="muidocs-icon-action-home" style={iconStyles}/></h1>
