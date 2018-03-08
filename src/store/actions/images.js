@@ -5,12 +5,15 @@ import * as uiActions from "./ui";
 
 
 
-const dbPromise=idb.open('image-store',1,(db)=>{
+const dbPromise=idb.open('image-store',1.1,(db)=>{
     if(!db.objectStoreNames.contains('images')){
         db.createObjectStore('images',{keyPath:'file_path'});
     }
     if(!db.objectStoreNames.contains('synced-images')){
         db.createObjectStore('synced-images',{keyPath:'file_path'});
+    }
+    if(!db.objectStoreNames.contains('hospitals')){
+        db.createObjectStore('hospitals',{keyPath:'id'});
     }
 });
 
@@ -178,6 +181,18 @@ export const loadHospital=()=>{
     }
 };
 
+export const loadHospitals=()=>{
+    return dispatch=>{
+        readAllData("hospitals")
+            .then(res=>{
+                if(res.length>0){
+                    dispatch(setHospitals(res));
+                }
+
+            })
+    }
+};
+
 
 
 export const getHospitals=()=>{
@@ -193,7 +208,14 @@ export const getHospitals=()=>{
                 throw Error(res.statusText);
             })
             .then(res=>{
-                dispatch(setHospitals(res));
+                if(res.length>0){
+
+                    res.forEach(h=>writeData('hospitals',h));
+                    //writeData("hospitals", {id:1,name:2});
+                    dispatch(setHospitals(res));
+                    console.log("hospitals:",res);
+                }
+
             })
     }
 };

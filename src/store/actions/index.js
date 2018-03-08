@@ -6,6 +6,7 @@ export {
     getHospitals,
     loadHospital,
     changeHospital,
+    loadHospitals,
 } from "./images";
 
 export {

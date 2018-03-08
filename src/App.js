@@ -13,6 +13,7 @@ class App extends Component {
         this.props.loadImages();
         this.props.loadSynced();
         this.props.checkAuthState();
+        this.props.loadHospitals();
         this.props.getHospitals();
         this.props.loadHospital();
     };
@@ -38,6 +39,7 @@ const mapDispatchToProps=(dispatch)=>{
         loadSynced:()=>dispatch(actions.loadSynced()),
         checkAuthState:()=>dispatch(actions.checkAuthState()),
         getHospitals:()=>dispatch(actions.getHospitals()),
+        loadHospitals:()=>dispatch(actions.loadHospitals()),
         loadHospital:()=>dispatch(actions.loadHospital()),
     }
 };
