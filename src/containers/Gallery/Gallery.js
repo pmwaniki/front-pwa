@@ -4,9 +4,23 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import IconButton from 'material-ui/IconButton';
 import {connect} from 'react-redux';
 import Subheader from 'material-ui/Subheader';
+import ImageDetail from "./ImageDetail";
 
 
 class Gallery extends Component{
+    state={
+        preview:false,
+        selected:'#'
+    };
+
+    previewClose=()=>{
+        this.setState({...this.state,preview:false})
+    };
+    previewOpen=(im)=>{
+        this.setState({...this.state,selected:im,preview:true});
+        console.log("icon clicked",im);
+        //
+    };
 
     render(){
         let dates=this.props.images.map(im=>im.date);
@@ -17,22 +31,23 @@ class Gallery extends Component{
             elements.push(<Subheader>{date}</Subheader>);
             let images2=this.props.images.filter(im=>im.date===date);
             images2.forEach(image=>{
-                let tile= (<GridTile
+                let tile= (<div style={{display:'inline'}} onClick={()=>this.previewOpen(URL.createObjectURL(image.blob))}><GridTile
                     key={image.file_path}
-                    actionIcon={<IconButton><StarBorder color={this.props.synced_images.filter(sImage=>sImage.file_path===image.file_path).length>0? "green":"white"} /></IconButton>}
+                    actionIcon={<IconButton ><StarBorder color={this.props.synced_images.filter(sImage=>sImage.file_path===image.file_path).length>0? "green":"white"} /></IconButton>}
                     title={image.record_id}
                     subtitle={<span>by <b>{image.ipno}</b></span>}
+
                 >
                     <img src={URL.createObjectURL(image.blob)} />
 
-                </GridTile>);
+                </GridTile></div>);
 
                 elements.push(tile);
             });
 
         });
 
-        console.log("Available dates",dates);
+        //console.log("Available dates",dates);
         return(
             <div>
                 <p>Images<StarBorder color="white" /></p>
@@ -40,6 +55,7 @@ class Gallery extends Component{
                     {elements}
 
                 </GridList>
+                <ImageDetail preview={this.state.preview} close={this.previewClose} selected={this.state.selected}/>
 
             </div>
         );

@@ -185,6 +185,7 @@ export const loadHospitals=()=>{
     return dispatch=>{
         readAllData("hospitals")
             .then(res=>{
+                //console.log("Hosp list from idx db",res);
                 if(res.length>0){
                     dispatch(setHospitals(res));
                 }
