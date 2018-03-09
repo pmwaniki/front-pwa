@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 import config from "../../config";
 import idb from 'idb';
 import * as uiActions from "./ui";
+import {dataURItoBlob,filenameFromDate} from '../../utils';
 
 
 
@@ -119,6 +120,7 @@ const upload=(image)=>{
     //
     let url=config.backendURL + "/api/new/";
     let formData=new FormData();
+    console.log("Blob:",image.blob);
     formData.append('file_path',image.blob,image.file_path);
     formData.append('record_id',image.record_id);
     formData.append('ipno',image.ipno);

@@ -4,10 +4,12 @@ import Camera from "react-camera";
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
+import {ImageCapture} from 'image-capture'
 
 import {dataURItoBlob,filenameFromDate} from '../../../utils';
 import styles from './Capture.css.js';
 
+let imageCapture=null;
 class Capture extends Component{
 
   state={
@@ -15,6 +17,7 @@ class Capture extends Component{
     file_path:'',
       camera:true
   };
+
 
     componentDidMount=()=>{
         if(this.props.open){
@@ -37,12 +40,12 @@ class Capture extends Component{
 
     openCamera=()=>{
         //this.setState({...this.state,camera:true});
-        this.canvas.style.display="none";
+        this.img.style.display="none";
         this.video.style.display="block";
         if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
             navigator.mediaDevices.getUserMedia({video: {
                 facingMode:{ideal:"environment"},
-                    width:{min:640,ideal:1280,max:1920},
+                    width:{min:640,ideal:1920},
                     height:{min:720,ideal:1080}
                 },audio:false})
                 .then((stream)=>{
@@ -52,6 +55,15 @@ class Capture extends Component{
 
                     this.video.srcObject=stream;
                     this.video.play();
+
+                    let track=stream.getVideoTracks()[0];
+                    imageCapture=new ImageCapture(track);
+                    const photoCapabilities=imageCapture.getPhotoCapabilities()
+                        .then(()=>{
+                            track.applyConstraints({
+                                advanced:[{torch:true}]
+                            })
+                        })
                 })
                 .catch(err=>{
                     console.log("Camera failed",err);
@@ -75,15 +87,23 @@ class Capture extends Component{
         }
 
         this.video.style.display="none";
-        this.canvas.style.display="block";
+        this.img.style.display="block";
 
     };
 
 
     capture=(e)=>{
 
+        imageCapture.takePhoto()
+            .then(blob=>{
+                this.setState({...this.state,blob:blob,file_path: "File_" + Date.now() + ".png", date: new Date().toISOString().split("T")[0]});
+                this.img.style.display='block';
+                //this.img.style.width='auto';
+                //console.log(blob);
+            })
 
-        this.video.style.display="none";
+
+        /*this.video.style.display="none";
         this.canvas.style.display="block";
         let wd=this.video.videoWidth;
         let ht=this.video.videoHeight;
@@ -110,7 +130,7 @@ class Capture extends Component{
             file_path: "File_" + Date.now() + ".png",
             date: new Date().toISOString().split("T")[0]
 
-        });
+        });*/
 
 
 
@@ -189,8 +209,8 @@ class Capture extends Component{
                           ref={(video)=>{this.video=video}}
                           id="capture"
                    />
-                   <canvas style={styles.canvas} ref={(canvas)=>this.canvas=canvas}>
-                   </canvas>
+                   <img style={styles.image} src={this.state.blob? URL.createObjectURL(this.state.blob) : "#"} ref={(img)=>this.img=img}>
+                   </img>
 
 
 

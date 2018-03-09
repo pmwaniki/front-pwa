@@ -106,7 +106,8 @@ class NewRecord extends Component{
                 'zIndex':50,
                 alignItems: 'center',
                 justifyContent: 'center',
-                paddingTop: 0
+                paddingTop: 0,
+                height:"100%"
             },
             dialogContent: {
                 position: 'relative',

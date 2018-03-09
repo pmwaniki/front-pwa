@@ -1,14 +1,15 @@
 export default {
   captureContainer: {
       display: 'none',
-      zIndex:100,
+      zIndex:10,
       position: 'fixed',
       justifyContent: 'center',
       top:"0",
       bottom: "0",
       width: '100%',
       height:'100%',
-      backgroundColor:'black'
+      backgroundColor:'black',
+      //overflow:'auto',
   },
   video: {
       display:"none",
@@ -22,12 +23,14 @@ export default {
       //padding:"auto 56px",
       //border: "5px solid green"
   },
-  canvas:{
+  img:{
       display:"none",
-      width:"100%",
-      height:"100%",
-      position:"relative",
-      top:'20%',
+      maxWidth:"100%",
+      maxHeight:'100%',
+
+      position:"fixed",
+      top:'0',
+      backgroundColor:"black"
       //left:0
 
   },
@@ -51,7 +54,7 @@ export default {
       width:"60px",
       right:0,
       backgroundColor:"blue",
-      bottom:"0px",
+      bottom:"0",
       boxShadow:"3px green"
 
   }
