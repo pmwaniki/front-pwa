@@ -1,14 +1,14 @@
 import React, { Component} from "react";
 import Dialog from 'material-ui/Dialog';
-import Camera from "react-camera";
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
-import {ImageCapture} from 'image-capture'
+//import {ImageCapture} from 'image-capture'
 
 import {dataURItoBlob,filenameFromDate} from '../../../utils';
 import styles from './Capture.css.js';
 
+let ImageCapture=window.ImageCapture;
 let imageCapture=null;
 class Capture extends Component{
 
@@ -41,7 +41,7 @@ class Capture extends Component{
     openCamera=()=>{
         //this.setState({...this.state,camera:true});
         this.img.style.display="none";
-        this.video.style.display="block";
+        this.video.style.display="flex";
         if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
             navigator.mediaDevices.getUserMedia({video: {
                 facingMode:{ideal:"environment"},
@@ -51,7 +51,7 @@ class Capture extends Component{
                 .then((stream)=>{
                     console.log("Camera available");
                     //this.setState({stream});
-                    this.video.style.display='block';
+                    //this.video.style.display='block';
 
                     this.video.srcObject=stream;
                     this.video.play();
@@ -62,7 +62,13 @@ class Capture extends Component{
                         .then(()=>{
                             track.applyConstraints({
                                 advanced:[{torch:true}]
-                            })
+                            });
+                            return imageCapture.getPhotoSettings();
+                        })
+                        .then(settings=>{
+                          this.img.style.width=settings.imageWidth + "px";
+                          this.img.style.height=settings.imageHeight + "px";
+                          console.log("Settings",settings);
                         })
                 })
                 .catch(err=>{
@@ -87,7 +93,7 @@ class Capture extends Component{
         }
 
         this.video.style.display="none";
-        this.img.style.display="block";
+        this.img.style.display="flex";
 
     };
 
@@ -96,41 +102,12 @@ class Capture extends Component{
 
         imageCapture.takePhoto()
             .then(blob=>{
-                this.setState({...this.state,blob:blob,file_path: "File_" + Date.now() + ".png", date: new Date().toISOString().split("T")[0]});
-                this.img.style.display='block';
+                this.setState({...this.state,blob:blob,file_path: "File_" + Date.now() + ".jpeg", date: new Date().toISOString().split("T")[0]});
+                this.img.style.display='flex';
                 //this.img.style.width='auto';
                 //console.log(blob);
             })
 
-
-        /*this.video.style.display="none";
-        this.canvas.style.display="block";
-        let wd=this.video.videoWidth;
-        let ht=this.video.videoHeight;
-        let canvas=this.canvas;
-        canvas.width=wd;
-        canvas.height=ht;
-
-
-        canvas.style.width=wd;
-        //canvas.style.height=ht;
-        console.log("Canvas widths",wd,canvas.style.width);
-        let context=canvas.getContext('2d');
-
-        console.log("Video width and height:",wd,ht);
-        context.drawImage(this.video, 0, 0, wd, ht);
-        //this.closeCamera();
-
-        //this.video.src='';
-        let picture=dataURItoBlob(canvas.toDataURL()) ;
-        let d =new Date();
-        this.setState({
-            ...this.state,
-            blob:picture,
-            file_path: "File_" + Date.now() + ".png",
-            date: new Date().toISOString().split("T")[0]
-
-        });*/
 
 
 
@@ -204,11 +181,14 @@ class Capture extends Component{
 
 
                >
-                   <video style={styles.video}
+                <div>
+                <video style={styles.video}
 
-                          ref={(video)=>{this.video=video}}
-                          id="capture"
-                   />
+                       ref={(video)=>{this.video=video}}
+                       id="capture"
+                />
+                </div>
+
                    <img style={styles.image} src={this.state.blob? URL.createObjectURL(this.state.blob) : "#"} ref={(img)=>this.img=img}>
                    </img>
 
