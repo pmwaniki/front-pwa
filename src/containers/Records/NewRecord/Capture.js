@@ -104,6 +104,7 @@ class Capture extends Component{
             .then(blob=>{
                 this.setState({...this.state,blob:blob,file_path: "File_" + Date.now() + ".jpeg", date: new Date().toISOString().split("T")[0]});
                 this.img.style.display='flex';
+                this.saveHandler();
                 //this.img.style.width='auto';
                 //console.log(blob);
             })
