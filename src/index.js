@@ -22,3 +22,15 @@ const store=createStore(rootReducer,composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(<Provider store={store}><App/></Provider>, document.getElementById('root'));
 registerServiceWorker();
+
+/*if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/sw.js`)
+            .then(registration => {
+                console.log(`Service Worker registered! Scope: ${registration.scope}`);
+            })
+            .catch(err => {
+                console.log(`Service Worker registration failed: ${err}`);
+            });
+    });
+}*/

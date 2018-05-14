@@ -13,6 +13,7 @@ export {
     auth,
     checkAuthState,
     logout,
+    change_password,
 } from "./auth";
 
 

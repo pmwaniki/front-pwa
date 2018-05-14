@@ -64,6 +64,24 @@ export const auth=(username,password)=>{
     }
 };
 
+export const change_password=(username,password,new_password)=>{
+    return dispatch=>{
+        const payload={
+            username:username,
+            password:password,
+            new_password:new_password
+        };
+        axios.post(config.backendURL + "/api/change_password/",payload)
+            .then(res=>{
+                dispatch(auth(username,new_password));
+            })
+            .catch(err=>{
+                dispatch(authFail("Wrong password"));
+                console.log("Response Error:",err);
+            })
+    }
+};
+
 export const checkAuthState=()=>{
     return dispatch=>{
         const token=localStorage.getItem("token");
