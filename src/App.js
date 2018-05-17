@@ -16,6 +16,8 @@ class App extends Component {
         this.props.loadHospitals();
         this.props.getHospitals();
         this.props.loadHospital();
+        this.props.getValidations();
+        this.props.loadValidations();
     };
   render() {
     return (
@@ -41,6 +43,8 @@ const mapDispatchToProps=(dispatch)=>{
         getHospitals:()=>dispatch(actions.getHospitals()),
         loadHospitals:()=>dispatch(actions.loadHospitals()),
         loadHospital:()=>dispatch(actions.loadHospital()),
+        getValidations:()=>dispatch(actions.getValidations()),
+        loadValidations:()=>dispatch(actions.loadValidations()),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps) (App);

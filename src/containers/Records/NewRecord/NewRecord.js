@@ -3,6 +3,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import Capture from "./Capture";
 import {connect} from "react-redux";
 
@@ -14,6 +16,7 @@ import * as actions from "../../../store/actions/index";
 class NewRecord extends Component{
 
     state={
+        purpose:'',
         recordId:'',
         ipno:'',
         images:[],
@@ -27,7 +30,8 @@ class NewRecord extends Component{
             ipno:'',
             images:[],
             n_images:0,
-            cameraOpen:false
+            cameraOpen:false,
+            purpose:''
         });
     };
 
@@ -58,6 +62,9 @@ class NewRecord extends Component{
             im['ipno']=this.state.ipno;
             im['hosp_id']=this.props.hosp;
             im['record_id']=this.state.recordId;
+            if(this.state.purpose){
+                im['validation']=this.state.purpose;
+            }
             this.props.saveImage(im);
         });
 
@@ -67,6 +74,9 @@ class NewRecord extends Component{
 
     changeIdHandler=(e)=>{
         this.setState({...this.state,recordId:e.target.value});
+    };
+    handleChangePurpose=(event, index, value)=>{
+        this.setState({...this.state,purpose:value});
     };
 
     changeIpnoHandler=(e)=>{
@@ -132,6 +142,18 @@ class NewRecord extends Component{
             >
                 <div style={{width: '100%', height: '100vh'}}>
 
+                    <SelectField
+                        floatingLabelText="Images from:"
+                        value={this.state.purpose}
+                        onChange={this.handleChangePurpose}
+                    >
+                        <MenuItem value={null} primaryText="" />
+                        {this.props.validations.map(v=>{
+                            return <MenuItem value={v.validation_id} primaryText={v.name}/>
+                        })}
+
+                    </SelectField>
+
                 <TextField id="id" value={this.state.recordId} onChange={this.changeIdHandler}
                     hintText="Record ID"
                 /><br />
@@ -164,6 +186,7 @@ const mapStateToProps=(state)=>{
     return {
         images:state.images.images,
         hosp:state.images.hosp,
+        validations:state.images.validations,
     }
 };
 

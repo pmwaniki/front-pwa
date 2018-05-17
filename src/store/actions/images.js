@@ -16,6 +16,9 @@ const dbPromise=idb.open('image-store',1.1,(db)=>{
     if(!db.objectStoreNames.contains('hospitals')){
         db.createObjectStore('hospitals',{keyPath:'id'});
     }
+    if(!db.objectStoreNames.contains('validations')){
+        db.createObjectStore('validations',{keyPath:'validation_id'});
+    }
 });
 
 const writeData=(st,data)=>{
@@ -125,6 +128,9 @@ const upload=(image)=>{
     formData.append('record_id',image.record_id);
     formData.append('ipno',image.ipno);
     formData.append('hosp_id',image.hosp_id);
+    if(image.validation){
+        formData.append('validation',image.validation);
+    }
 
     return fetch(url,{
         method:"POST",
@@ -279,3 +285,39 @@ export const syncAction=(action="sync")=>{
 
 
 
+//VALIDATIONS
+const setValidations=(data)=>{
+    return { type:actionTypes.SET_VALIDATIONS,validations:data}
+};
+
+
+export const getValidations=()=>{
+    return dispatch =>{
+        //console.log("Getting validations");
+        fetch(config.backendURL + "/api/validations/")
+            .then(res=>{
+                if(res.ok){
+                    return res.json();
+                }
+                throw Error(res.statusText);
+            })
+            .then(res => {
+                dispatch(setValidations(res));
+                res.forEach(v => writeData('validations',v));
+            }).catch(err=>console.log(err));
+    }
+};
+
+export const loadValidations=()=>{
+    return dispatch=>{
+        readAllData("validations")
+            .then(res=>{
+                //console.log("Hosp list from idx db",res);
+                if(res.length>0){
+                    dispatch(setValidations(res));
+                }
+
+            });
+
+    }
+};

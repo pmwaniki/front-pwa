@@ -7,6 +7,8 @@ export {
     loadHospital,
     changeHospital,
     loadHospitals,
+    getValidations,
+    loadValidations,
 } from "./images";
 
 export {

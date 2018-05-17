@@ -4,7 +4,8 @@ const initialState={
     images:[],
     synced_images:[],
     hosp:null,
-    hospitals:[]
+    hospitals:[],
+    validations:[],
 };
 
 
@@ -16,6 +17,7 @@ const reducer=(state=initialState,action)=>{
         case actionTypes.LOAD_SYNCED_IMAGES: return {...state,synced_images:action.images};
         case actionTypes.SET_HOSPITAL: return {...state,hosp:action.hospital};
         case actionTypes.SET_HOSPITALS: return {...state,hospitals:action.hospitals};
+        case actionTypes.SET_VALIDATIONS: return {...state,validations:action.validations};
         default: return state;
     }
 };
