@@ -18,6 +18,7 @@ class App extends Component {
         this.props.loadHospital();
         this.props.getValidations();
         this.props.loadValidations();
+        this.props.sync("delete")
     };
   render() {
     return (
@@ -45,6 +46,7 @@ const mapDispatchToProps=(dispatch)=>{
         loadHospital:()=>dispatch(actions.loadHospital()),
         getValidations:()=>dispatch(actions.getValidations()),
         loadValidations:()=>dispatch(actions.loadValidations()),
+        sync:(action)=>dispatch(actions.syncAction(action))
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps) (App);
