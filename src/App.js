@@ -18,7 +18,12 @@ class App extends Component {
         this.props.loadHospital();
         this.props.getValidations();
         this.props.loadValidations();
-        this.props.sync("delete")
+        this.props.sync("delete");
+        this.props.sync("sync");
+    };
+    componentWillUnmount=()=>{
+        //this.props.sync("delete");
+        console.log("Unmounting app");
     };
   render() {
     return (
