@@ -23,7 +23,7 @@ class App extends Component {
     };
     componentWillUnmount=()=>{
         //this.props.sync("delete");
-        console.log("Unmounting app");
+        //console.log("Unmounting app");
     };
   render() {
     return (
