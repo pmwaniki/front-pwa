@@ -154,7 +154,7 @@ class NewRecord extends Component{
 
                     </SelectField>
 
-                <TextField id="id" value={this.state.recordId} onChange={this.changeIdHandler}
+                <TextField type={"number"} id="id" value={this.state.recordId} onChange={this.changeIdHandler}
                     hintText="Record ID"
                 /><br />
                 <br />
