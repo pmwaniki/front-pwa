@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  front-web:
+    container_name: front-pwa
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+    - .:/usr/src/app
+
+    restart: always
+
+    ports:
+      - '5002:3333'
+
+    environment:
+      - NODE_ENV=development

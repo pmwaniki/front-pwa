@@ -121,7 +121,7 @@ export const saveImage = (image)=>{
 
 const upload=(image)=>{
     //
-    let url=config.backendURL + "/api/new/";
+    let url=config.backendURL + "/api2/new/";
     let formData=new FormData();
     console.log("Blob:",image.blob);
     formData.append('file_path',image.blob,image.file_path);
@@ -206,7 +206,7 @@ export const loadHospitals=()=>{
 
 export const getHospitals=()=>{
     return dispatch=>{
-        fetch(config.backendURL + "/api/hospitals/",{
+        fetch(config.backendURL + "/api2/hospitals/",{
             method:"GET",
             headers:getToken()
         })
@@ -294,7 +294,7 @@ const setValidations=(data)=>{
 export const getValidations=()=>{
     return dispatch =>{
         //console.log("Getting validations");
-        fetch(config.backendURL + "/api/validations/")
+        fetch(config.backendURL + "/api2/validations/")
             .then(res=>{
                 if(res.ok){
                     return res.json();
