@@ -6,8 +6,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-    - .:/usr/src/app
+#    volumes:
+#    - .:/usr/src/app
 
     restart: always
 
@@ -15,4 +15,4 @@ services:
       - '5002:3333'
 
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
