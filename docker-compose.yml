@@ -1,7 +1,7 @@
 version: '3.5'
 
 services:
-  front-web:
+  front-pwa:
     container_name: front-pwa
     build:
       context: .
